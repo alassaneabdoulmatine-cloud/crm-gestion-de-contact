@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id          String       @id @default(uuid())
+  createdAt   DateTime     @default(now())
+  email       String       @unique
+  name        String?
+  contacts    contact[]
+  entreprises entreprise[]
+  deals       Deal[]
+}
+
+model contact {
+  id           Int         @id @default(autoincrement())
+  createdAt    DateTime    @default(now())
+  name         String
+  email        String?
+  phone        String?
+  statusId     Int?
+  status       status?     @relation(fields: [statusId], references: [id])
+  entrepriseId Int?
+  entreprise   entreprise? @relation(fields: [entrepriseId], references: [id])
+  userId       String
+  user         User        @relation(fields: [userId], references: [id])
+  deals        Deal[]
+}
+
+model entreprise {
+  id           Int       @id @default(autoincrement())
+  createdAt    DateTime  @default(now())
+  name         String
+  proprietaire String?
+  ville        String?
+  secteur      String?
+  email        String?
+  phone        String?
+  contacts     contact[]
+  userId       String
+  user         User      @relation(fields: [userId], references: [id])
+  deals        Deal[]
+}
+
+model status {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  name      String
+  contacts  contact[]
+}
+
+model DealStage {
+  id    Int    @id @default(autoincrement())
+  name  String
+  deals Deal[]
+}
+
+model Deal {
+  id           Int         @id @default(autoincrement())
+  title        String
+  amount       Float?      @default(0)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  stageId      Int?
+  stage        DealStage?  @relation(fields: [stageId], references: [id])
+  userId       String
+  user         User        @relation(fields: [userId], references: [id])
+  contactId    Int?
+  contact      contact?    @relation(fields: [contactId], references: [id])
+  entrepriseId Int?
+  entreprise   entreprise? @relation(fields: [entrepriseId], references: [id])
+}

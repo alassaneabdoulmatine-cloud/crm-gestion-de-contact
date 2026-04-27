@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+// 1. Importe la nouvelle police
+import { Inter } from "next/font/google";
 import "./globals.css";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { NavBar } from "@/components/nav-bar";
+import QueryProvider from "./provider/queryProvider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// 2. Configure la police (tu peux retirer geistSans et geistMono)
+const inter = Inter({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -23,11 +25,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang="fr">
+      {/* 3. Applique la variable et la classe de police ici */}
+      <body className={`${inter.variable} font-sans antialiased`}>
+        <SidebarProvider>
+          <TooltipProvider>
+            <AppSidebar />
+            <main className="w-full h-[100vh] overflow-hidden">
+              <NavBar />
+              <QueryProvider>
+                {children}
+              </QueryProvider>
+            </main>
+          </TooltipProvider>
+        </SidebarProvider>
       </body>
     </html>
   );
