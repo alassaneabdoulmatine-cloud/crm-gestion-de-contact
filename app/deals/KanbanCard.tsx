@@ -1,10 +1,9 @@
 "use client"
 
-import React from 'react'
 import { Card, CardContent } from "@/components/ui/card"
 import { useSortable } from '@dnd-kit/react/sortable'
 import { Calendar, Building2, User, MoreHorizontal } from 'lucide-react'
-import { Deal } from '@prisma/client';
+
 
 interface KanbanCardProps {
     deal: any;
