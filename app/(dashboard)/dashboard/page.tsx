@@ -3,8 +3,8 @@ import { SectionCards } from "@/components/section-cards"
 import { getDashboardStats, getRevenueChartData, getRecentDeals, getRecentContacts } from "./actions"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { DataTable } from "@/app/contacts/data-table"
-import { columns } from "@/app/contacts/columns"
+import { DataTable } from "@/app/(dashboard)/contacts/data-table"
+import { columns } from "@/app/(dashboard)/contacts/columns"
 
 export default async function Page() {
   const [stats, chartData, recentDeals, recentContacts] = await Promise.all([
