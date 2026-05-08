@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
 import { usePathname } from "next/navigation"
+import { cn } from "@/lib/utils"
 
 const items = [
     {
@@ -95,10 +96,25 @@ export function AppSidebar() {
                         {items.map((item) => (
                             <SidebarMenuItem key={item.title}>
                                 {/* Utilisation de asChild pour intégrer le Link proprement */}
-                                <SidebarMenuButton asChild tooltip={item.title} className={` ${item.to === pathname ? "bg-sidebar-foreground" : ""}`}>
+                                <SidebarMenuButton 
+                                    asChild 
+                                    tooltip={item.title} 
+                                    className={cn(
+                                        "transition-all duration-200",
+                                        item.to === pathname 
+                                            ? "bg-black text-white hover:bg-black hover:text-white shadow-md" 
+                                            : "hover:bg-sidebar-accent"
+                                    )}
+                                >
                                     <Link href={item.to}>
-                                        <item.icon className={`${item.to === pathname ? "text-white" : ""}`} />
-                                        <span className={`${item.to === pathname ? "text-white" : ""}`}>{item.title}</span>
+                                        <item.icon className={cn(
+                                            "size-4",
+                                            item.to === pathname ? "text-white" : "text-muted-foreground"
+                                        )} />
+                                        <span className={cn(
+                                            "font-medium",
+                                            item.to === pathname ? "text-white" : "text-foreground"
+                                        )}>{item.title}</span>
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
